@@ -4,6 +4,9 @@ const path = require("path");
 const bodyparser = require("body-parser");
 const airData = require("./src/utils/airdata");
 
+const dotenv = require("dotenv");
+dotenv.config();
+
 const app = express();
 
 app.use(bodyparser.urlencoded({ extended: true }));
@@ -38,18 +41,15 @@ app.get("/about", (req, res) => {
   });
 });
 app.post("/air", (req, res) => {
-  airData(req.body.location, (err, { air }) => {
-    if (err) {
-      return res.send({ err });
-    }
+  airData(req.body.location, ({ air }) => {
     return res.render("air", {
       title: "미세먼지 정보 앱",
       name: "Psmin",
       email: "tkdals6405@gmail.com",
-      location: "1",
-      time: "1",
-      pm10: "1",
-      pm25: "1",
+      location: req.body.location,
+      time: air.items[0].dataTime,
+      pm10: air.items[0].pm10Value,
+      pm25: air.items[0].pm25Value,
     });
   });
 });
