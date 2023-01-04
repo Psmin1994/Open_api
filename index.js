@@ -41,15 +41,15 @@ app.get("/about", (req, res) => {
   });
 });
 app.post("/air", (req, res) => {
-  airData(req.body.location, ({ air }) => {
+  airData(req.body.location, (air) => {
     return res.render("air", {
       title: "미세먼지 정보 앱",
       name: "Psmin",
       email: "tkdals6405@gmail.com",
       location: req.body.location,
-      time: air.items[0].dataTime,
-      pm10: air.items[0].pm10Value,
-      pm25: air.items[0].pm25Value,
+      time: air.dataTime,
+      pm10: air.pm10Value,
+      pm25: air.pm25Value,
     });
   });
 });

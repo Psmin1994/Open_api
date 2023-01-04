@@ -14,8 +14,8 @@ const airData = (stationName, callback) => {
   const fullUrl = url + queryParams;
 
   axios.get(fullUrl).then((res) => {
-    const air = res.data.response.body;
-    callback({ air });
+    const air = res.data.response.body.items[0];
+    callback(air);
   });
 };
 
