@@ -6,11 +6,14 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+dotenv.config();
+
+// router 모듈
 const router = require("./src/routes/index");
 const movieRouter = require("./src/routes/movieRouter");
 const airRouter = require("./src/routes/airRouter");
-const dotenv = require("dotenv");
-dotenv.config();
+const pharmacyRouter = require("./src/routes/pharmacyRouter");
 
 const app = express();
 
@@ -26,6 +29,7 @@ app.use(bodyParser.json());
 app.use("/", router);
 app.use("/movie", movieRouter);
 app.use("/air", airRouter);
+app.use("/pharmacy", pharmacyRouter);
 
 const port = process.env.PORT || 5000;
 

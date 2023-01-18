@@ -1,55 +1,47 @@
 "use strict";
 
-// const User = require("../../models/User");
+const path = require("path");
+const airData = require("../models/airdata");
 // const logger = require("../../config/logger");
 
 const output = {
   home: (req, res) => {
-    //브라우저의 요청
-    // logger.info(`GET / 304 "홈 화면으로 이동"`);
-    res.render("movie/index");
+    res.render("air/home", {
+      title: "미세먼지 정보 앱",
+      name: "Psmin",
+      email: "tkdals6405@gmail.com",
+    });
   },
-
-  sort_categories: (req, res) => {
-    //브라우저의 요청
-    // logger.info(`GET /login 304 "로그인 화면으로 이동"`);
-    res.render("movie/sort_categories");
+  help: (req, res) => {
+    res.render("air/help", {
+      title: "미세먼지 정보 앱",
+      name: "Psmin",
+      email: "tkdals6405@gmail.com",
+      message: "Hello",
+    });
   },
-
-  sort_year: (req, res) => {
-    // logger.info(`GET /register 304 "회원가입 화면으로 이동"`);
-    res.render("movie/sort_year");
-  },
-  post: (req, res) => {
-    // Logger
-    res.render("movie/post");
+  about: (req, res) => {
+    res.render("air/about", {
+      title: "미세먼지 정보 앱",
+      name: "Psmin",
+      email: "tkdals6405@gmail.com",
+    });
   },
 };
 
 const process = {
-  login: async (req, res) => {
-    const user = new User(req.body);
-    const response = await user.login();
-
-    const url = {
-      method: "POST",
-      path: "/login",
-      status: response.err ? 400 : 200,
-    };
-    log(response, url);
-    return res.status(url.status).json(response);
-  },
-
-  register: async (req, res) => {
-    const user = new User(req.body);
-    const response = await user.register();
-    const url = {
-      method: "POST",
-      path: "/register",
-      status: response.err ? 400 : 201,
-    };
-    log(response, url);
-    return res.status(url.status).json(response);
+  post: (req, res) => {
+    airData(req.body.location, (air) => {
+      return res.render("air/post", {
+        title: "미세먼지 정보 앱",
+        name: "Psmin",
+        email: "tkdals6405@gmail.com",
+        location: req.body.location,
+        time: air.dataTime,
+        pm10: air.pm10Value,
+        pm25: air.pm25Value,
+      });
+    });
   },
 };
 
@@ -58,11 +50,3 @@ module.exports = {
   output,
   process,
 };
-
-// const log = (response, url) => {
-//   if (response.err) {
-//     logger.error(`${url.method} ${url.path} ${url.status} Response: ${response.success} ${response.err}"`);
-//   } else {
-//     logger.info(`${url.method} ${url.path} ${url.status} Response: ${response.success} ${response.msg || ""}`);
-//   }
-// };
