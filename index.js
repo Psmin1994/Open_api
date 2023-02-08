@@ -1,7 +1,5 @@
 "use strict";
 
-// index.html 기본값 why?
-
 // 모듈
 const express = require("express");
 const path = require("path");
